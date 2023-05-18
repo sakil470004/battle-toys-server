@@ -48,10 +48,20 @@ async function run() {
             const result = await toyCollection.find(query).toArray();
             res.send(result)
         })
+        // add a toy
         app.post('/addToys', async (req, res) => {
             const toys = req.body;
             const result = toyCollection.insertOne(toys);
             res.send(result)
+        })
+        // todo:update a toy
+        app.put('/update/:id', async (req, res) => {
+            const id = req.params.id;
+            const toy = req.body;
+            const result = await toyCollection.updateOne({ _id: new ObjectId(id) }, {
+                $set: toy
+            })
+            res.send(result);
         })
     } finally {
         // Ensures that the client will close when you finish/error
