@@ -29,6 +29,15 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
         console.log('mongo Connected Successfully')
+        const initialToyCollection = client.db('battle-toys').collection('toys');
+        const toyCollection = client.db('battle-toys').collection('user-toys');
+        // initital Toys
+        app.get('/initialToys', async (req, res) => {
+            const result = await initialToyCollection.find().toArray();
+            res.send(result)
+        })
+
+      
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
