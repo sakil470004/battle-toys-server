@@ -42,7 +42,13 @@ async function run() {
             const result = await toyCollection.find().toArray();
             res.send(result)
         })
-      
+        app.get('/myToys', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await toyCollection.find(query).toArray();
+            res.send(result)
+        })
+       
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
