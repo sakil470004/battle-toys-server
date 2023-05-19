@@ -43,15 +43,28 @@ async function run() {
             res.send(result)
         })
         app.get('/myToys', async (req, res) => {
-            const email = req.params.email;
-            const query = { email: email };
+            // console.log(req.params)
+            const email = req.query.email;
+            let query = {}
+            if (email) {
+                query = { sellerEmail: email };
+            }
+            // console.log(email,query)
             const result = await toyCollection.find(query).toArray();
             res.send(result)
+        })
+        // get single Toy with id
+        app.get('/singleToy/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await toyCollection.findOne(query);
+            res.send(result);
         })
         // add a toy
         app.post('/addToys', async (req, res) => {
             const toys = req.body;
-            const result = toyCollection.insertOne(toys);
+            console.log(toys)
+            const result = await toyCollection.insertOne(toys);
             res.send(result)
         })
         // todo:update a toy
@@ -62,6 +75,13 @@ async function run() {
                 $set: toy
             })
             res.send(result);
+        })
+        // delete a toy
+        app.delete('/delete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await toyCollection.deleteOne(query);
+            res.send(result)
         })
     } finally {
         // Ensures that the client will close when you finish/error
