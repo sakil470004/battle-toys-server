@@ -36,6 +36,12 @@ async function run() {
             const result = await initialToyCollection.find().toArray();
             res.send(result)
         })
+        app.get('/singleInitialToy/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await initialToyCollection.findOne(query);
+            res.send(result)
+        })
 
         // user toys
         app.get('/allToys', async (req, res) => {
@@ -60,10 +66,18 @@ async function run() {
             const result = await toyCollection.findOne(query);
             res.send(result);
         })
+        app.get('/latest', async (req, res) => {
+            const result = await toyCollection
+                .find()
+                .sort({ _id: -1 }) // Sort in descending order based on the _id field
+                .limit(3) // Limit the result to three documents
+                .toArray()
+            res.send(result);
+        })
         // add a toy
         app.post('/addToys', async (req, res) => {
             const toys = req.body;
-            console.log(toys)
+            // console.log(toys)
             const result = await toyCollection.insertOne(toys);
             res.send(result)
         })
