@@ -44,13 +44,13 @@ async function run() {
         })
         // get total toysNumber
         app.get('/totalToys', async (req, res) => {
-            const totalToys = await toyCollection.countDocuments();
-            res.send({ totalToys: totalToys })
+            const result = await toyCollection.find().toArray();
+            res.send({ totalToys: result.length, allToys: result })
         })
-      
+
         //todo: user toys//uses limit
         app.get('/allToys', async (req, res) => {
-            console.log(req.query);
+            // console.log(req.query);
             const page = parseInt(req.query.page) || 0;
             const limit = parseInt(req.query.limit) || 10;
             const skip = page * limit;
