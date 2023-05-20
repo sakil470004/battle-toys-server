@@ -42,10 +42,19 @@ async function run() {
             const result = await initialToyCollection.findOne(query);
             res.send(result)
         })
-
-        // user toys
+        // get total toysNumber
+        app.get('/totalToys', async (req, res) => {
+            const totalToys = await toyCollection.countDocuments();
+            res.send({ totalToys: totalToys })
+        })
+      
+        //todo: user toys//uses limit
         app.get('/allToys', async (req, res) => {
-            const result = await toyCollection.find().toArray();
+            console.log(req.query);
+            const page = parseInt(req.query.page) || 0;
+            const limit = parseInt(req.query.limit) || 10;
+            const skip = page * limit;
+            const result = await toyCollection.find().skip(skip).limit(limit).toArray();
             res.send(result)
         })
         app.get('/myToys', async (req, res) => {
