@@ -5,13 +5,7 @@ const port = process.env.PORT || 5000
 const app = express();
 
 // Use cors middleware to enable CORS
-const corsConfig = {
-    origin: '',
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-}
-app.use(cors(corsConfig))
-app.options("", cors(corsConfig))
+app.use(cors())
 app.use(express.json()); // Middleware to parse JSON request body
 // for environment variable
 require('dotenv').config()
@@ -35,8 +29,8 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         client.connect();
         console.log('mongo Connected Successfully')
-        const initialToyCollection =  client.db('battle-toys').collection('toys');
-        const toyCollection =  client.db('battle-toys').collection('user-toys');
+        const initialToyCollection = client.db('battle-toys').collection('toys');
+        const toyCollection = client.db('battle-toys').collection('user-toys');
         // initital Toys
         app.get('/initialToys', async (req, res) => {
             const result = await initialToyCollection.find().toArray();
