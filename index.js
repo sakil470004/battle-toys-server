@@ -33,10 +33,10 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        client.connect();
         console.log('mongo Connected Successfully')
-        const initialToyCollection = await client.db('battle-toys').collection('toys');
-        const toyCollection = await client.db('battle-toys').collection('user-toys');
+        const initialToyCollection =  client.db('battle-toys').collection('toys');
+        const toyCollection =  client.db('battle-toys').collection('user-toys');
         // initital Toys
         app.get('/initialToys', async (req, res) => {
             const result = await initialToyCollection.find().toArray();
