@@ -1,7 +1,7 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
-const PORT = process.env.PORT || 5000
+const port = process.env.PORT || 5000
 const app = express();
 
 // Use cors middleware to enable CORS
@@ -121,6 +121,6 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
 });
